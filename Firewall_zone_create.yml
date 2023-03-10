@@ -1,0 +1,14 @@
+- name: Configure firewall zone
+  firewalld:
+    zone: myzone
+    state: enabled
+    immediate: yes
+    permanent: yes
+    default: reject
+    services:
+      - ssh
+      - samba
+    ports:
+      - port: 4312/tcp
+        protocol: tcp
+        accept: yes
