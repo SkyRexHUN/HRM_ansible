@@ -1,0 +1,6 @@
+- name: Add /data/dir to fstab
+  lineinfile:
+    path: /etc/fstab
+    regexp: '^/dev/sd.* /data/dir.*'
+    line: '/dev/sdX /data/dir ext4 defaults 0 2'
+    state: present
