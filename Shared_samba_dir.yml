@@ -1,0 +1,45 @@
+---
+- name: Configure Samba share for fonok
+  hosts: your_host_name
+  become: true
+
+  vars:
+    smb_share_name: "fontos"
+    smb_share_path: "/data/fontos"
+    smb_share_user: "fonok"
+    smb_share_group: "users"
+    smb_share_mode: "0775"
+
+  tasks:
+    - name: Install Samba
+      apt:
+        name: samba
+        state: present
+
+    - name: Create Samba directory
+      file:
+        path: "{{ smb_share_path }}"
+        state: directory
+        mode: "{{ smb_share_mode }}"
+        owner: "{{ smb_share_user }}"
+        group: "{{ smb_share_group }}"
+
+    - name: Configure Samba share
+      lineinfile:
+        path: /etc/samba/smb.conf
+        line: "{{ item }}"
+      with_items:
+        - "[{{ smb_share_name }}}"
+        - "   path = {{ smb_share_path }}"
+        - "   valid users = {{ smb_share_user }}"
+        - "   read only = no"
+        - "   create mask = 0644"
+        - "   directory mask = 0755"
+      notify:
+        - restart Samba
+
+  handlers:
+    - name: restart Samba
+      service:
+        name: smbd
+        state: restarted
