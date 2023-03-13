@@ -9,18 +9,21 @@
         zone: new_zone
         state: present
         permanent: true
+      notify: restart firewalld
 
     - name: Allow SSH service in firewalld
       firewalld:
         service: ssh
         permanent: true
         state: enabled
+      notify: restart firewalld
 
     - name: Allow Samba service in firewalld
       firewalld:
         service: samba
         permanent: true
         state: enabled
+      notify: restart firewalld
 
     - name: Allow SSH traffic on port 4312
       firewalld:
@@ -28,6 +31,7 @@
         port: 4312/tcp
         state: enabled
         permanent: true
+      notify: restart firewalld
 
     - name: Configure SSH to use port 4312
       lineinfile:
@@ -44,6 +48,7 @@
         port: 4312/tcp
         state: enabled
         permanent: true
+      notify: restart firewalld
 
     - name: Configure Samba to use port 4312
       lineinfile:
