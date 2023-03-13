@@ -30,4 +30,4 @@
         zone: new_zone
         state: enabled
         permanent: true
-        reject: all
+        drop: yes
