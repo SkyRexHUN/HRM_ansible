@@ -51,12 +51,11 @@
       notify: restart firewalld
 
   handlers:
-    - name: allow port 4312 for ssh
-      seboolean:
-        name: sshd_port_t
-        value: true
-        state: yes
-        persistent: yes
+    - name: Allow SSH traffic on port 4312
+      semanage:
+        fcontext: "port_t"
+        proto: "tcp"
+        port: "4312"
       notify: restart firewalld
 
     - name: allow port 4312 for samba
