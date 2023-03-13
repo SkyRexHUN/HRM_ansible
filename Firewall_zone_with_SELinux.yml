@@ -67,7 +67,7 @@
     - name: Allow SSH traffic on port 4312
       seport:
         proto: "tcp"
-        port: 4312
+        ports: 4312
         setype: ssh_port_t
         state: enabled
       notify: restart firewalld
@@ -75,7 +75,7 @@
     - name: allow port 4312 for samba
       seport:
         proto: tcp
-        port: 4312
+        ports: 4312
         setype: samba_port_t
         state: enabled
       notify: restart firewalld
