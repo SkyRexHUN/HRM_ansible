@@ -6,13 +6,13 @@
   tasks:
     - name: Create new firewall zone
       firewalld:
-        zone: new_zone
+        zone: ansi_zone
         state: present
         permanent: true
 
     - name: Allow SSH traffic on port 4312
       firewalld:
-        zone: new_zone
+        zone: ansi_zone
         port: 4312/tcp
         state: enabled
         permanent: true
@@ -27,7 +27,7 @@
 
     - name: Allow Samba traffic on port 4312
       firewalld:
-        zone: new_zone
+        zone: ansi_zone
         port: 4312/tcp
         state: enabled
         permanent: true
@@ -42,7 +42,7 @@
 
     - name: Drop all other traffic
       firewalld:
-        zone: new_zone
+        zone: ansi_zone
         state: enabled
         permanent: true
         rich_rule: rule family="ipv4" source address="0.0.0.0/0" drop
