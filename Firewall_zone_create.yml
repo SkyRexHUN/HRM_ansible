@@ -30,4 +30,4 @@
         zone: new_zone
         state: enabled
         permanent: true
-        drop: yes
+        rich_rule: rule family="ipv4" source address="0.0.0.0/0" drop
