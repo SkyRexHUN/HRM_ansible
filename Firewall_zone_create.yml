@@ -1,42 +1,50 @@
 ---
-- name: Configure Firewall Zone
+- name: Create custom firewall zone
   hosts: centos
   become: true
+
   vars:
-    firewall_zone: custom_ansible_zone
+    my_zone: ansi_zone
 
   tasks:
-    # Create the firewall zone
+    # Check if the firewalld zone exists
+    - name: Check if firewall zone exists
+      firewalld_zone:
+        zone: "{{ my_zone }}"
+      register: zone_check
+
+    # Create the firewalld zone if it does not exist
     - name: Create firewall zone
       firewalld_zone:
-        name: "{{ firewall_zone }}"
+        zone: "{{ my_zone }}"
         state: present
         immediate: yes
         permanent: yes
+      when: not zone_check|success
 
-    # Set the default policy to REJECT
-    - name: Set default policy to REJECT
-      firewalld:
-        zone: "{{ firewall_zone }}"
+    # Configure the firewall zone to reject all traffic by default
+    - name: Configure firewall zone to reject all traffic
+      firewalld_zone:
+        zone: "{{ my_zone }}"
+        state: enabled
+        immediate: yes
+        permanent: yes
         target: reject
-        state: enabled
-        permanent: yes
-        immediate: yes
 
-    # Allow SSH service in the firewall zone
-    - name: Allow SSH service
-      firewalld:
-        zone: "{{ firewall_zone }}"
-        service: ssh
+    # Allow SSH traffic
+    - name: Allow SSH traffic
+      firewalld_port:
+        port: ssh
+        zone: "{{ my_zone }}"
         state: enabled
-        permanent: yes
         immediate: yes
+        permanent: yes
 
-    # Allow Samba service on port 4312 in the firewall zone
-    - name: Allow Samba service on port 4312
-      firewalld:
-        zone: "{{ firewall_zone }}"
+    # Allow Samba traffic on port 4312
+    - name: Allow Samba traffic
+      firewalld_port:
         port: 4312/tcp
+        zone: "{{ my_zone }}"
         state: enabled
-        permanent: yes
         immediate: yes
+        permanent: yes
