@@ -11,22 +11,18 @@
         permanent: true
 
     - name: Allow SSH and Samba services
-      firewalld_rich_rule:
-        state: present
+      firewalld:
+        state: enabled
         zone: REJECT
-        family: ipv4
-        source: any
         service: ssh,samba
-        action: accept
+        permanent: yes
 
     - name: Allow port 4312
-      firewalld_rich_rule:
-        state: present
+      firewalld:
+        state: enabled
         zone: REJECT
-        family: ipv4
-        source: any
         port: 4312/tcp
-        action: accept
+        permanent: yes
 
     - name: Drop all other traffic
       firewalld:
