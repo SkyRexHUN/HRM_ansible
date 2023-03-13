@@ -1,0 +1,78 @@
+---
+- name: Configure Firewall and SELinux
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Create new firewall zone
+      firewalld:
+        zone: new_zone
+        state: present
+        permanent: true
+
+    - name: Allow SSH traffic on port 4312
+      firewalld:
+        zone: new_zone
+        port: 4312/tcp
+        state: enabled
+        permanent: true
+
+    - name: Configure SSH to use port 4312
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?Port\s+\d+'
+        line: 'Port 4312'
+        state: present
+        backup: yes
+      notify: allow port 4312 for ssh
+
+    - name: Allow Samba traffic on port 4312
+      firewalld:
+        zone: new_zone
+        port: 4312/tcp
+        state: enabled
+        permanent: true
+
+    - name: Configure Samba to use port 4312
+      lineinfile:
+        path: /etc/samba/smb.conf
+        regexp: '^#?port\s+=\s+\d+'
+        line: 'port = 4312'
+        state: present
+        backup: yes
+      notify: allow port 4312 for samba
+
+    - name: Drop all other traffic
+      firewalld:
+        zone: new_zone
+        state: enabled
+        permanent: true
+        rich_rule: rule family="ipv4" source address="0.0.0.0/0" drop
+      notify: restart firewalld
+
+  handlers:
+    - name: allow port 4312 for ssh
+      seboolean:
+        name: sshd_port_t
+        value: true
+        state: yes
+        persistent: yes
+      notify: restart firewalld
+
+    - name: allow port 4312 for samba
+      seport:
+        proto: tcp
+        port: 4312
+        setype: samba_port_t
+        state: enabled
+      notify: restart firewalld
+
+    - name: restart firewalld
+      service:
+        name: firewalld
+        state: restarted
+      notify: notify user
+
+    - name: notify user
+      debug:
+        msg: "Firewall has been configured and firewalld service has been restarted. SELinux policies have been modified to allow traffic on port 4312 for SSH and Samba."
