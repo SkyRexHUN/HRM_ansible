@@ -2,42 +2,52 @@
 - name: Configure Firewall
   hosts: all
   become: true
-  
+
   tasks:
     - name: Create new firewall zone
       firewalld:
-        zone: ansi_zone
+        zone: new_zone
         state: present
         permanent: true
-      become: true
 
-    - name: Allow connections on port 4312
+    - name: Allow SSH traffic on port 4312
       firewalld:
-        zone: ansi_zone
+        zone: new_zone
         port: 4312/tcp
         state: enabled
         permanent: true
-      
-    - name: Allow SSH traffic
+
+    - name: Configure SSH to use port 4312
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?Port\s+\d+'
+        line: 'Port 4312'
+        state: present
+        backup: yes
+
+    - name: Allow Samba traffic on port 4312
       firewalld:
-        zone: ansi_zone
-        service: ssh
-        state: enabled
-        permanent: true
-      
-    - name: Allow Samba traffic
-      firewalld:
-        zone: ansi_zone
+        zone: new_zone
+        port: 4312/tcp
         service: samba
         state: enabled
         permanent: true
-      
-    - name: Reject all other traffic
+
+    - name: Configure Samba to use port 4312
+      lineinfile:
+        path: /etc/samba/smb.conf
+        regexp: '^#?port\s+=\s+\d+'
+        line: 'port = 4312'
+        state: present
+        backup: yes
+
+    - name: Drop all other traffic
       firewalld:
-        zone: ansi_zone
+        zone: new_zone
         state: enabled
         permanent: true
         rich_rule: rule family="ipv4" source address="0.0.0.0/0" drop
+      notify: restart firewalld
 
   handlers:
     - name: restart firewalld
@@ -45,9 +55,6 @@
         name: firewalld
         state: restarted
       notify: notify user
-
-  handlers:
     - name: notify user
       debug:
         msg: "Firewall has been configured and firewalld service has been restarted."
-
