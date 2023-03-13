@@ -81,7 +81,7 @@
       seport:
         proto: tcp
         ports: 4312
-        setype: samba_port_t
+        setype: smbd_port_t
         state: present
       notify: restart firewalld
 
