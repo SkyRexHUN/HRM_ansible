@@ -1,42 +1,42 @@
 ---
-- name: Configure Firewall Zone
-  hosts: centos
-  become: true
-  vars:
-    firewall_zone: ansi_zone
+  - name: Configure Firewall Zone
+    hosts: centos
+    become: true
+    vars:
+      firewall_zone: ansi_zone
 
-  tasks:
+    tasks:
     # Create the firewall zone
-    - name: Create firewall zone
-      firewalld:
-        zone: "{{ firewall_zone }}"
-        state: present
-        permanent: yes
-        immediate: yes
+      - name: Create firewall zone
+        firewalld:
+          zone: "{{ firewall_zone }}"
+          state: present
+          permanent: yes
+          immediate: yes
 
     # Set the default policy to REJECT
-    - name: Set default policy to REJECT
-      firewall_rule:
-        zone: "{{ firewall_zone }}"
-        chain: default
-        policy: reject
-        permanent: yes
-        immediate: yes
+      - name: Set default policy to REJECT
+        firewall_rule:
+          zone: "{{ firewall_zone }}"
+          chain: default
+          policy: reject
+          permanent: yes
+          immediate: yes
 
     # Allow SSH service in the firewall zone
-    - name: Allow SSH service
-      firewalld:
-        zone: "{{ firewall_zone }}"
-        service: ssh
-        permanent: yes
-        immediate: yes
-        state: enabled
+      - name: Allow SSH service
+        firewalld:
+          zone: "{{ firewall_zone }}"
+          service: ssh
+          permanent: yes
+          immediate: yes
+          state: enabled
 
     # Allow Samba service on port 4312 in the firewall zone
-    - name: Allow Samba service on port 4312
-      firewalld:
-        zone: "{{ firewall_zone }}"
-        port: 4312/tcp
-        permanent: yes
-        immediate: yes
-        state: enabled
+      - name: Allow Samba service on port 4312
+        firewalld:
+          zone: "{{ firewall_zone }}"
+          port: 4312/tcp
+          permanent: yes
+          immediate: yes
+          state: enabled
