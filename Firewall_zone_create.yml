@@ -40,22 +40,6 @@
         state: present
         backup: yes
 
-    - name: Set SELinux policy to allow SSH traffic on port 4312
-      seboolean:
-        name: sshd
-        proto: tcp
-        port: 4312
-        setype: sshd_port_t
-        state: on
-
-    - name: Set SELinux policy to allow Samba traffic on port 4312
-      seport:
-        name: samba
-        proto: tcp
-        port: 4312
-        setype: samba_port_t
-        state: on
-
     - name: Drop all other traffic
       firewalld:
         zone: ansi_zone
