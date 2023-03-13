@@ -42,10 +42,10 @@
 
     - name: Set SELinux policy to allow SSH traffic on port 4312
       seboolean:
-        name: sshd_port_t
-        set: true
-        state: yes
-        persistent: yes
+        proto: tcp
+        port: 4312
+        setype: sshd_port_t
+        state: enabled
 
     - name: Set SELinux policy to allow Samba traffic on port 4312
       seport:
