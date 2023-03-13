@@ -44,3 +44,6 @@
       service:
         name: firewalld
         state: restarted
+
+
+#CAN'T SSH INTO THEM FFS!!!
