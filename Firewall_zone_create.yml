@@ -1,6 +1,6 @@
 ---
 - name: Configure Firewall and SELinux
-  hosts: centos
+  hosts: all
   become: true
 
   tasks:
@@ -51,7 +51,7 @@
         proto: tcp
         port: 4312
         setype: samba_port_t
-        state: present
+        state: enabled
 
     - name: Drop all other traffic
       firewalld:
