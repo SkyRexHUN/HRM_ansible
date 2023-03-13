@@ -12,7 +12,7 @@
         zone: "{{ firewall_zone }}"
         state: present
         permanent: yes
-        immediate: yes
+        immediate: no
 
     # Set the default policy to REJECT
     - name: Set default policy to REJECT
@@ -39,4 +39,3 @@
         permanent: yes
         immediate: yes
         state: enabled
-        
