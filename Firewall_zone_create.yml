@@ -6,28 +6,41 @@
   tasks:
     - name: Create new firewall zone
       firewalld:
-        zone: new_zone
+        zone: ansi_zone
         state: present
         permanent: true
       become: true
       
     - name: Allow SSH traffic
       firewalld:
-        zone: new_zone
+        zone: ansi_zone
         service: ssh
         state: enabled
         permanent: true
       
     - name: Allow Samba traffic
       firewalld:
-        zone: new_zone
+        zone: ansi_zone
         service: samba
         state: enabled
         permanent: true
       
     - name: Reject all other traffic
       firewalld:
-        zone: new_zone
+        zone: ansi_zone
         state: enabled
         permanent: true
         rich_rule: rule family="ipv4" source address="0.0.0.0/0" drop
+
+  handlers:
+    - name: restart firewalld
+      service:
+        name: firewalld
+        state: restarted
+      notify: notify user
+
+  handlers:
+    - name: notify user
+      debug:
+        msg: "Firewall has been configured and firewalld service has been restarted."
+
