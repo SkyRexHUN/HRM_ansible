@@ -3,9 +3,8 @@
   hosts: centos
   become: true
   collections:
-    - ansible.posix
-    - firewalld.firewalld
-
+   - ansible.posix
+   - firewalld.firewalld
   vars:
     my_zone: ansi_zone
 
