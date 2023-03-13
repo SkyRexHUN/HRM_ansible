@@ -3,7 +3,7 @@
   hosts: centos
   become: true
   vars:
-    firewall_zone: ansible_zone
+    firewall_zone: ansi_zone
 
   tasks:
     # Create the firewall zone
@@ -13,7 +13,15 @@
         state: present
         permanent: yes
         immediate: yes
-        default: reject
+
+    # Set the default policy to REJECT
+    - name: Set default policy to REJECT
+      firewall_rule:
+        zone: "{{ firewall_zone }}"
+        chain: default
+        policy: reject
+        permanent: yes
+        immediate: yes
 
     # Allow SSH service in the firewall zone
     - name: Allow SSH service
