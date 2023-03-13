@@ -3,7 +3,7 @@
   hosts: centos
   become: true
   vars:
-    firewall_zone: my_zone
+    firewall_zone: ansible_zone
 
   tasks:
     # Create the firewall zone
