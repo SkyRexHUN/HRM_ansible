@@ -43,7 +43,7 @@
     - name: Set SELinux policy to allow SSH traffic on port 4312
       seboolean:
         name: sshd_port_t
-        value: true
+        set: true
         state: yes
         persistent: yes
 
