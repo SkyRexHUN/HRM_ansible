@@ -21,7 +21,7 @@
       firewalld:
         state: enabled
         zone: REJECT
-        service: smb
+        service: smbd
         permanent: yes
 
     - name: Allow port 4312
