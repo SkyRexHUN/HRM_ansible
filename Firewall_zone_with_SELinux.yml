@@ -52,10 +52,11 @@
 
   handlers:
     - name: Allow SSH traffic on port 4312
-      semanage:
-        fcontext: "port_t"
+      seport:
         proto: "tcp"
-        port: "4312"
+        port: 4312
+        setype: ssh_port_t
+        state: enabled
       notify: restart firewalld
 
     - name: allow port 4312 for samba
