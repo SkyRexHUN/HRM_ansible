@@ -1,18 +1,20 @@
 ---
 - name: Configure Firewall Zone
-  hosts: centos
+  hosts: all
   become: true
   vars:
     firewall_zone: ansi_zone
+    firewall_zone_description: "default: REJECT, allowed: ssh, Samba"
 
   tasks:
     # Create the firewall zone
     - name: Create firewall zone
-      firewalld:
-        zone: "{{ firewall_zone }}"
+      firewalld_zone:
+        name: "{{ firewall_zone }}"
         state: present
         permanent: yes
-        immediate: no
+        immediate: yes
+        description: "{{ firewall_zone_description }}"
 
     # Set the default policy to REJECT
     - name: Set default policy to REJECT
