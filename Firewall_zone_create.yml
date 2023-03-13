@@ -10,6 +10,13 @@
         state: present
         permanent: true
       become: true
+
+    - name: Allow connections on port 4312
+      firewalld:
+        zone: ansi_zone
+        port: 4312/tcp
+        state: enabled
+        permanent: true
       
     - name: Allow SSH traffic
       firewalld:
