@@ -1,52 +1,33 @@
 ---
-- name: Create custom firewall zone
-  hosts: centos
+- name: Configure Firewall
+  hosts: all
   become: true
-  collections:
-   - ansible.posix
-   - firewalld.firewalld
-  vars:
-    my_zone: ansi_zone
-
+  
   tasks:
-    # Check if the firewalld zone exists
-    - name: Check if firewall zone exists
-      firewalld_zone:
-        zone: "{{ my_zone }}"
-      register: zone_check
-
-    # Create the firewalld zone if it does not exist
-    - name: Create firewall zone
-      firewalld_zone:
-        zone: "{{ my_zone }}"
+    - name: Create new firewall zone
+      firewalld:
+        zone: new_zone
         state: present
-        immediate: yes
-        permanent: yes
-      when: not zone_check|success
-
-    # Configure the firewall zone to reject all traffic by default
-    - name: Configure firewall zone to reject all traffic
-      firewalld_zone:
-        zone: "{{ my_zone }}"
-        state: enabled
-        immediate: yes
-        permanent: yes
-        target: reject
-
-    # Allow SSH traffic
+        permanent: true
+      become: true
+      
     - name: Allow SSH traffic
-      firewalld_port:
-        port: ssh
-        zone: "{{ my_zone }}"
+      firewalld:
+        zone: new_zone
+        service: ssh
         state: enabled
-        immediate: yes
-        permanent: yes
-
-    # Allow Samba traffic on port 4312
+        permanent: true
+      
     - name: Allow Samba traffic
-      firewalld_port:
-        port: 4312/tcp
-        zone: "{{ my_zone }}"
+      firewalld:
+        zone: new_zone
+        service: samba
         state: enabled
-        immediate: yes
-        permanent: yes
+        permanent: true
+      
+    - name: Reject all other traffic
+      firewalld:
+        zone: new_zone
+        state: enabled
+        permanent: true
+        reject: all
