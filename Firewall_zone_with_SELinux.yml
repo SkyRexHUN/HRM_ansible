@@ -36,7 +36,7 @@
         line: 'Port 4312'
         state: present
         backup: yes
-      notify: allow port 4312 for ssh
+      notify: Allow SSH traffic on port 4312
 
     - name: Allow Samba traffic on port 4312
       firewalld:
