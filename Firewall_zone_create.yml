@@ -4,16 +4,15 @@
   become: true
   vars:
     firewall_zone: ansi_zone
-    firewall_zone_description: "default: REJECT, allowed: ssh, Samba"
+    firewall_zone_description: "Allow ssh, Samba, default: REJECT"
 
   tasks:
     # Create the firewall zone
     - name: Create firewall zone
-      firewalld_zone:
-        name: "{{ firewall_zone }}"
-        state: present
+      firewalld:
+        zone: "{{ firewall_zone }}"
+        state: new
         permanent: yes
-        immediate: yes
         description: "{{ firewall_zone_description }}"
 
     # Set the default policy to REJECT
@@ -29,8 +28,8 @@
     - name: Allow SSH service
       firewalld:
         zone: "{{ firewall_zone }}"
-        state: enabled
         service: ssh
+        state: enabled
         permanent: yes
         immediate: yes
 
@@ -38,7 +37,7 @@
     - name: Allow Samba service on port 4312
       firewalld:
         zone: "{{ firewall_zone }}"
-        state: enabled
         port: 4312/tcp
+        state: enabled
         permanent: yes
         immediate: yes
