@@ -1,14 +1,34 @@
-- name: Configure firewall zone
-  firewalld:
-    zone: myzone
-    state: enabled
-    immediate: yes
-    permanent: yes
-    default: reject
-    services:
-      - ssh
-      - samba
-    ports:
-      - port: 4312/tcp
-        protocol: tcp
-        accept: yes
+---
+- name: Configure Firewall Zone
+  hosts: centos
+  become: true
+  vars:
+    firewall_zone: my_zone
+
+  tasks:
+    # Create the firewall zone
+    - name: Create firewall zone
+      firewalld:
+        zone: "{{ firewall_zone }}"
+        state: present
+        permanent: yes
+        immediate: yes
+        default: reject
+
+    # Allow SSH service in the firewall zone
+    - name: Allow SSH service
+      firewalld:
+        zone: "{{ firewall_zone }}"
+        service: ssh
+        permanent: yes
+        immediate: yes
+        state: enabled
+
+    # Allow Samba service on port 4312 in the firewall zone
+    - name: Allow Samba service on port 4312
+      firewalld:
+        zone: "{{ firewall_zone }}"
+        port: 4312/tcp
+        permanent: yes
+        immediate: yes
+        state: enabled

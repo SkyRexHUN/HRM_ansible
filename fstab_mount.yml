@@ -1,3 +1,4 @@
+---
 - name: Add /data/dir to fstab
   lineinfile:
     path: /etc/fstab
