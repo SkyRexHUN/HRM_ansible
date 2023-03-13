@@ -1,0 +1,37 @@
+---
+- name: Configure Firewalld
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Create new firewall zone
+      firewalld:
+        zone: REJECT
+        state: present
+        permanent: true
+
+    - name: Allow SSH and Samba services
+      firewalld_service:
+        state: enabled
+        name: ssh,samba
+        zone: REJECT
+
+    - name: Allow port 4312
+      firewalld_port:
+        state: enabled
+        port: 4312/tcp
+        zone: REJECT
+
+    - name: Drop all other traffic
+      firewalld:
+        zone: REJECT
+        state: enabled
+        permanent: true
+        rich_rule: rule family="ipv4" source address="0.0.0.0/0" drop
+      notify: restart firewalld
+
+  handlers:
+    - name: Restart Firewalld
+      service:
+        name: firewalld
+        state: restarted
