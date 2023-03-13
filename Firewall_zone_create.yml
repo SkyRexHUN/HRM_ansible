@@ -29,7 +29,6 @@
       firewalld:
         zone: new_zone
         port: 4312/tcp
-        service: samba
         state: enabled
         permanent: true
 
@@ -55,6 +54,7 @@
         name: firewalld
         state: restarted
       notify: notify user
+
     - name: notify user
       debug:
         msg: "Firewall has been configured and firewalld service has been restarted."
