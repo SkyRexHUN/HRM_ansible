@@ -10,11 +10,18 @@
         state: present
         permanent: true
 
-    - name: Allow SSH and Samba services
+    - name: Allow SSH
       firewalld:
         state: enabled
         zone: REJECT
-        service: ssh,samba
+        service: ssh
+        permanent: yes
+
+    - name: Allow Samba
+      firewalld:
+        state: enabled
+        zone: REJECT
+        service: smb
         permanent: yes
 
     - name: Allow port 4312
