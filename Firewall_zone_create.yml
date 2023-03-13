@@ -3,7 +3,7 @@
   hosts: centos
   become: true
   vars:
-    firewall_zone: ansi_zone
+    firewall_zone: custom_ansible_zone
 
   tasks:
     # Create the firewall zone
@@ -13,16 +13,15 @@
         state: present
         immediate: yes
         permanent: yes
-        rich_rule: 'rule family="ipv4" source NOT address="127.0.0.1/8" reject'
-        
+
     # Set the default policy to REJECT
     - name: Set default policy to REJECT
       firewalld:
         zone: "{{ firewall_zone }}"
+        target: reject
         state: enabled
         permanent: yes
         immediate: yes
-        rich_rule: 'rule family="ipv4" source NOT address="127.0.0.1/8" reject'
 
     # Allow SSH service in the firewall zone
     - name: Allow SSH service
