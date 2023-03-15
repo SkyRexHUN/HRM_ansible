@@ -35,7 +35,8 @@
         path: /etc/samba/smb.conf
         state: present
         regexp: '^\[global\]'
-        insertafter: "security = user"    
+        insertafter: '^\[global\]'  
+        line: "security = user"  
 
     - name: Configure Samba share
       lineinfile:
