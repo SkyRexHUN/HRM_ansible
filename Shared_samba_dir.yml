@@ -49,7 +49,8 @@
         service: samba
         permanent: yes
         state: enabled
-        notify: Restart firewalld service
+      notify: 
+       - Restart firewalld service
 
   handlers:
     - name: restart Samba
