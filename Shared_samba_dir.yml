@@ -16,6 +16,12 @@
       yum:
         name: samba
         state: present
+    
+    - name: Start and enable smbd service
+      systemd:
+        name: smbd
+        enabled: yes
+        state: started
 
     - name: Create user fonok
       user:
