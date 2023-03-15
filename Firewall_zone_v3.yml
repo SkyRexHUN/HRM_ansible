@@ -8,7 +8,6 @@
       firewalld:
         zone: REJECT
         state: present
-        target: "%%REJECT%%"
         permanent: true
         interface: ens33
 
@@ -38,7 +37,7 @@
         zone: REJECT
         state: enabled
         permanent: true
-        rich_rule: rule family="ipv4" source address="0.0.0.0/0" drop
+        rich_rule: 'rule family="ipv4" source address="0.0.0.0/0" reject'
       notify: Restart Firewalld
 
   handlers:
