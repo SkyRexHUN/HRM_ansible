@@ -38,10 +38,6 @@
         owner: "{{ smb_share_user }}"
         group: "{{ smb_share_group }}"
 
-    - name: Set SMB password for fonok
-      shell: "echo '{{ smb_share_password }}' | smbpasswd -s -a {{ smb_share_user }}"
-      changed_when: false
-
     - name: Configure Samba share
       lineinfile:
         path: /etc/samba/smb.conf
@@ -55,6 +51,10 @@
         - "   directory mask = 0755"
       notify:
         - restart Samba
+
+    - name: Set SMB password for fonok
+      shell: "echo '{{ smb_share_password }}' | smbpasswd -s -a {{ smb_share_user }}"
+      changed_when: false
 
   handlers:
     - name: restart Samba
