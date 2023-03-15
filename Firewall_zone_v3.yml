@@ -1,6 +1,6 @@
 ---
 - name: Configure Firewalld
-  hosts: centos
+  hosts: all
   become: true
 
 #  vars:
@@ -13,27 +13,27 @@
 #        state: present
 
   tasks:
-    - name: Create new firewall zone
+    - name: Create REJECT firewall zone
       firewalld:
         zone: REJECT
         state: present
         permanent: true
 
-    - name: Allow SSH
+    - name: Allow SSH service
       firewalld:
         state: enabled
         zone: REJECT
         service: ssh
         permanent: yes
 
-    - name: Allow Samba
+    - name: Allow Samba service
       firewalld:
         state: enabled
         zone: REJECT
         service: samba
         permanent: yes
 
-    - name: Allow port 4312
+    - name: Allow port 4312 only
       firewalld:
         state: enabled
         zone: REJECT
@@ -50,7 +50,7 @@
 
 #    - name: Allow port 4312 for SSH in SELinux
 #      command: semanage port -a -t ssh_port_t -p tcp {{ ssh_port }}
-
+#
 #    - name: Modify ssh port
 #      lineinfile:
 #        path: /etc/ssh/sshd_config
@@ -65,6 +65,7 @@
       service:
         name: firewalld
         state: restarted
+
 #    - name: Restart SSH service
 #      service:
 #       name: sshd
