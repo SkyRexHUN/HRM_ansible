@@ -8,7 +8,9 @@
       firewalld:
         zone: REJECT
         state: present
+        target: %%REJECT%%
         permanent: true
+        interfaces: ens33
 
     - name: Allow SSH
       firewalld:
