@@ -7,7 +7,7 @@
     smb_share_name: "fontos"
     smb_share_path: "/data/fontos"
     smb_share_user: "fonok"
-    smb_share_group: "users"
+    smb_share_group: "fonok"
     smb_share_mode: "0775"
 
   tasks:
@@ -39,8 +39,8 @@
         - "path = {{ smb_share_path }}"
         - "valid users = {{ smb_share_user }}"
         - "read only = no"
-#        - "create mask = 0644"
-#        - "directory mask = 0755"
+        - "create mask = 0644"
+        - "directory mask = 0755"
       notify:
         - restart Samba
 
