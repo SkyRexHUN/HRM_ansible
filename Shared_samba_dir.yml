@@ -33,9 +33,9 @@
     - name: Configure Samba share
       lineinfile:
         path: /etc/samba/smb.conf
-        line: "7"
-      with_items:
-        - "security = user"     
+        state: present
+        regexp: '^\[global\]'
+        insertafter: "security = user"    
 
     - name: Configure Samba share
       lineinfile:
