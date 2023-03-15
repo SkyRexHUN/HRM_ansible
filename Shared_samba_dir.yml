@@ -12,7 +12,7 @@
 
   tasks:
     - name: Install Samba
-      apt:
+      yum:
         name: samba
         state: present
 
