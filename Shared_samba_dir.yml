@@ -44,8 +44,20 @@
       notify:
         - restart Samba
 
+    - name: Enable Samba in firewall
+      firewalld:
+        service: samba
+        permanent: yes
+        state: enabled
+        notify: Restart firewalld service
+
   handlers:
     - name: restart Samba
       service:
         name: smb
+        state: restarted
+    
+    - name: Restart firewalld service
+      service:
+        name: firewalld
         state: restarted
