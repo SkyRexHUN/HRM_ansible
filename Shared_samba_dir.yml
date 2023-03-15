@@ -16,6 +16,12 @@
         name: samba
         state: present
 
+    - name: Create user fonok
+      user:
+        name: "{{ smb_share_user }}"
+        state: present
+        createhome: no
+
     - name: Create Samba directory
       file:
         path: "{{ smb_share_path }}"
