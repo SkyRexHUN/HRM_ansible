@@ -9,6 +9,7 @@
     smb_share_user: "fonok"
     smb_share_group: "users"
     smb_share_mode: "0775"
+    smb_share_password: "smbpass"
 
   tasks:
     - name: Install Samba
@@ -21,6 +22,7 @@
         name: "{{ smb_share_user }}"
         state: present
         createhome: no
+        password: "{{ smb_share_password | password_hash('sha512') }}"
 
     - name: Create Samba directory
       file:
