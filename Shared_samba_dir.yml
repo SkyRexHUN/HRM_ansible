@@ -24,13 +24,6 @@
         enabled: yes
         state: started
 
-    - name: Create user fonok
-      user:
-        name: "{{ smb_share_user }}"
-        state: present
-        createhome: no
-        password: "{{ smb_share_password }}"
-
     - name: Create Samba directory
       file:
         path: "{{ smb_share_path }}"
@@ -52,13 +45,6 @@
         - " directory mask = 0755"
       notify:
         - restart Samba
-
-    - name: Set password for fonok user
-      shell: echo "smbpass" | smbpasswd -s -a fonok
-      args:
-        executable: /bin/bash
-      become_user: root
-      become_method: su
 
   handlers:
     - name: restart Samba
