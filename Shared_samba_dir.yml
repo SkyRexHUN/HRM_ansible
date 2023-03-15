@@ -10,6 +10,7 @@
     smb_share_group: "users"
     smb_share_mode: "0775"
     smb_share_password: "smbpass"
+    smb_smbpasswd: "smbpass"
 
   tasks:
     - name: Install Samba
@@ -52,9 +53,12 @@
       notify:
         - restart Samba
 
-    - name: Set SMB password for fonok
-      shell: "echo '{{ smb_share_password }}' | smbpasswd -s -a {{ smb_share_user }}"
-      changed_when: false
+    - name: Set password for fonok user
+      shell: echo "{{ smb_smbpasswd }}" | smbpasswd -s -a fonok
+      args:
+        executable: /bin/bash
+      become_user: root
+      become_method: su
 
   handlers:
     - name: restart Samba
