@@ -33,7 +33,7 @@
     - name: Configure Samba share
       lineinfile:
         path: /etc/samba/smb.conf
-        line: 7
+        line: "7"
       with_items:
         - "security = user"     
 
