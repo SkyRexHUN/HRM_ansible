@@ -3,14 +3,14 @@
   hosts: centos
   become: true
 
-  vars:
-    ssh_port: 4312
-    allow_ssh_port:
-      semanage:
-        ports: "{{ ssh_port }}/tcp"
-        proto: tcp
-        setype: ssh_port_t
-        state: present
+#  vars:
+#    ssh_port: 4312
+#    allow_ssh_port:
+#      semanage:
+#        ports: "{{ ssh_port }}/tcp"
+#        proto: tcp
+#        setype: ssh_port_t
+#        state: present
 
   tasks:
     - name: Create new firewall zone
@@ -45,30 +45,27 @@
         zone: REJECT
         state: enabled
         permanent: true
-        rich_rule: 'rule family="ipv4" source NOT address="127.0.0.1/8" reject'
+        rich_rule: 'rule family="ipv4" source address="0.0.0.0/0" reject'
       notify: Restart Firewalld
 
-    - name: Allow port 4312 for SSH in SELinux
-      command: semanage port -a -t ssh_port_t -p tcp {{ ssh_port }}
+#    - name: Allow port 4312 for SSH in SELinux
+#      command: semanage port -a -t ssh_port_t -p tcp {{ ssh_port }}
 
-    - name: Modify ssh port
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: '^#?Port .*'
-        line: 'Port 4312'
-        backup: yes
-        create: yes
-      notify: Restart SSH service
+#    - name: Modify ssh port
+#      lineinfile:
+#        path: /etc/ssh/sshd_config
+#        regexp: '^#?Port .*'
+#        line: 'Port 4312'
+#        backup: yes
+#        create: yes
+#      notify: Restart SSH service
 
   handlers:
     - name: Restart Firewalld
       service:
         name: firewalld
         state: restarted
-    - name: Restart SSH service
-      service:
-       name: sshd
-       state: restarted
-
-
-#CAN'T SSH INTO THEM FFS!!!
+#    - name: Restart SSH service
+#      service:
+#       name: sshd
+#       state: restarted
