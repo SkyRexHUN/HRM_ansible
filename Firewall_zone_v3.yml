@@ -10,7 +10,7 @@
         state: present
         target: "%%REJECT%%"
         permanent: true
-        interfaces: ens33
+        interface: ens33
 
     - name: Allow SSH
       firewalld:
