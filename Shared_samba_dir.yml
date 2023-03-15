@@ -35,6 +35,14 @@
         path: /etc/samba/smb.conf
         line: "{{ item }}"
       with_items:
+        - "[global]"
+        - "security = user"     
+
+    - name: Configure Samba share
+      lineinfile:
+        path: /etc/samba/smb.conf
+        line: "{{ item }}"
+      with_items:
         - "[{{ smb_share_name }}]"
         - "path = {{ smb_share_path }}"
         - "valid users = {{ smb_share_user }}"
