@@ -9,7 +9,6 @@
         zone: REJECT
         state: present
         permanent: true
-        interface: ens33
 
     - name: Allow SSH
       firewalld:
