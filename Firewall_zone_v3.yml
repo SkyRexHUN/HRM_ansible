@@ -8,7 +8,7 @@
       firewalld:
         zone: REJECT
         state: present
-        target: REJECT
+        target: "%%REJECT%%"
         permanent: true
         interfaces: ens33
 
