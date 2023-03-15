@@ -43,12 +43,12 @@
         path: /etc/samba/smb.conf
         line: "{{ item }}"
       with_items:
-        - "[{{ smb_share_name }}}"
-        - "   path = {{ smb_share_path }}"
-        - "   valid users = {{ smb_share_user }}"
-        - "   read only = no"
-        - "   create mask = 0644"
-        - "   directory mask = 0755"
+        - "[{{ smb_share_name }}]"
+        - " path = {{ smb_share_path }}"
+        - " valid users = {{ smb_share_user }}"
+        - " read only = no"
+        - " create mask = 0644"
+        - " directory mask = 0755"
       notify:
         - restart Samba
 
