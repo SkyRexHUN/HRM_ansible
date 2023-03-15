@@ -7,7 +7,7 @@
     - name: Create new firewall zone
       firewalld:
         zone: REJECT
-        state: present
+        state: new
         permanent: true
         interface: ens33
 
