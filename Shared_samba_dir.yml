@@ -29,7 +29,7 @@
         name: "{{ smb_share_user }}"
         state: present
         createhome: no
-        password: "{{ smb_share_password | password_hash('sha512') }}"
+        password: "{{ smb_share_password }}"
 
     - name: Create Samba directory
       file:
@@ -54,7 +54,7 @@
         - restart Samba
 
     - name: Set password for fonok user
-      shell: echo smbpass | smbpasswd -s -a fonok
+      shell: echo "smbpass" | smbpasswd -s -a fonok
       args:
         executable: /bin/bash
       become_user: root
