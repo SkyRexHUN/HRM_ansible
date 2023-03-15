@@ -3,7 +3,8 @@
   hosts: all
   become: true
 
-#  vars:
+  vars:
+    zone_name: REJECT
 #    ssh_port: 4312
 #    allow_ssh_port:
 #      semanage:
@@ -15,34 +16,34 @@
   tasks:
     - name: Create REJECT firewall zone
       firewalld:
-        zone: REJECT
+        zone: "{{ zone_name }}"
         state: present
         permanent: true
 
     - name: Allow SSH service
       firewalld:
         state: enabled
-        zone: REJECT
+        zone: "{{ zone_name }}"
         service: ssh
         permanent: yes
 
     - name: Allow Samba service
       firewalld:
         state: enabled
-        zone: REJECT
+        zone: "{{ zone_name }}"
         service: samba
         permanent: yes
 
     - name: Allow port 4312 only
       firewalld:
         state: enabled
-        zone: REJECT
+        zone: "{{ zone_name }}"
         port: 4312/tcp
         permanent: yes
 
     - name: Drop all other traffic
       firewalld:
-        zone: REJECT
+        zone: "{{ zone_name }}"
         state: enabled
         permanent: true
         rich_rule: 'rule family="ipv4" source address="0.0.0.0/0" reject'
