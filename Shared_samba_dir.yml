@@ -54,7 +54,7 @@
         - restart Samba
 
     - name: Set password for fonok user
-      shell: echo ""{{ smb_smbpasswd }}"" | smbpasswd -s -a fonok
+      shell: echo smbpass | smbpasswd -s -a fonok
       args:
         executable: /bin/bash
       become_user: root
