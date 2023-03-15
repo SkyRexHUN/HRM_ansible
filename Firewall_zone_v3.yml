@@ -3,15 +3,6 @@
   hosts: centos
   become: true
 
-  vars:
-    modify_ssh_port:
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: '^#?Port .*'
-        line: 'Port 4312'
-        backup: yes
-        create: yes
-
   tasks:
     - name: Create new firewall zone
       firewalld:
@@ -48,19 +39,24 @@
         rich_rule: 'rule family="ipv4" source NOT address="127.0.0.0/0" reject'
       notify: Restart Firewalld
 
-    - name: Modify SSH port
-      modify_ssh_port:
-
-    - name: Restart SSH service
-      service:
-       name: sshd
-       state: restarted
+    - name: Modify ssh port
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?Port .*'
+        line: 'Port 4312'
+        backup: yes
+        create: yes
+      notify: Restart SSH service
 
   handlers:
     - name: Restart Firewalld
       service:
         name: firewalld
         state: restarted
+    - name: Restart SSH service
+      service:
+       name: sshd
+       state: restarted
 
 
 #CAN'T SSH INTO THEM FFS!!!
