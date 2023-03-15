@@ -9,8 +9,6 @@
     smb_share_user: "fonok"
     smb_share_group: "users"
     smb_share_mode: "0775"
-    smb_share_password: "smbpass"
-    smb_smbpasswd: "smbpass"
 
   tasks:
     - name: Install Samba
@@ -18,7 +16,7 @@
         name: samba
         state: present
     
-    - name: Start and enable smbd service
+    - name: Start and enable smb service
       systemd:
         name: smb
         enabled: yes
@@ -41,8 +39,8 @@
         - "path = {{ smb_share_path }}"
         - "valid users = {{ smb_share_user }}"
         - "read only = no"
-        - "create mask = 0644"
-        - "directory mask = 0755"
+#        - "create mask = 0644"
+#        - "directory mask = 0755"
       notify:
         - restart Samba
 
