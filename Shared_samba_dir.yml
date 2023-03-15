@@ -34,7 +34,6 @@
       lineinfile:
         path: /etc/samba/smb.conf
         state: present
-        regexp: '^\[global\]'
         insertafter: '^\[global\]'  
         line: "security = user"  
 
