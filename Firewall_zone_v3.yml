@@ -48,7 +48,7 @@
         rich_rule: 'rule family="ipv4" source NOT address="127.0.0.0/0" reject'
       notify: Restart Firewalld
 
-    - name: Allow port "{{ ssh_port }}" for SSH using semanage
+    - name: Allow port 4312 for SSH using semanage
       run_once: true
       ansible.builtin.semanage: "{{ allow_ssh_port }}"
 
