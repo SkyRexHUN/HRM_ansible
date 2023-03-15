@@ -3,6 +3,15 @@
   hosts: centos
   become: true
 
+  vars:
+    ssh_port: 4312
+    allow_ssh_port:
+      semanage:
+        ports: "{{ ssh_port }}/tcp"
+        proto: tcp
+        setype: ssh_port_t
+        state: present
+
   tasks:
     - name: Create new firewall zone
       firewalld:
@@ -38,6 +47,10 @@
         permanent: true
         rich_rule: 'rule family="ipv4" source NOT address="127.0.0.0/0" reject'
       notify: Restart Firewalld
+
+    - name: Allow port {{ ssh_port }} for SSH using semanage
+      run_once: true
+      ansible.builtin.semanage: "{{ allow_ssh_port }}"
 
     - name: Modify ssh port
       lineinfile:
