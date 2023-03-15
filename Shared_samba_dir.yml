@@ -1,6 +1,6 @@
 ---
 - name: Configure Samba share for fonok
-  hosts: your_host_name
+  hosts: all
   become: true
 
   vars:
