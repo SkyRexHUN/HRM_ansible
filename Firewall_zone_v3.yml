@@ -45,7 +45,7 @@
         zone: REJECT
         state: enabled
         permanent: true
-        rich_rule: 'rule family="ipv4" source NOT address="127.0.0.1/0" reject'
+        rich_rule: 'rule family="ipv4" source NOT address="127.0.0.1/8" reject'
       notify: Restart Firewalld
 
     - name: Allow port 4312 for SSH in SELinux
