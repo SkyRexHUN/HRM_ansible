@@ -3,7 +3,7 @@
   hosts: centos
   become: true
 
-  functions:
+  vars:
     modify_ssh_port:
       lineinfile:
         path: /etc/ssh/sshd_config
