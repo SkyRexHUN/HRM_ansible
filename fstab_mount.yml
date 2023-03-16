@@ -3,10 +3,16 @@
   hosts: all
   become: true
 
+  vars:
+    mount_dir: "/data/mount"
+    mount_device: "/dev/sdb"
+
   tasks:
     - name: Mount to fstab
       lineinfile:
         path: /etc/fstab
-        regexp: '^/dev/sd.* /data/mount.*'
-        line: '/dev/sdb /data/mount ext4 defaults 0 0'
+        regexp: '^/dev/sd.* {{ mount_dir }}.*'
+        line: '{{ mount_device }} {{ mount_dir }} ext4 defaults 0 0'
         state: present
+
+#This script mounts /data/mount to the fstab file with the device sdb.
