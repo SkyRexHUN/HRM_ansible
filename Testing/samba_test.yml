@@ -12,6 +12,11 @@
     samba_password: "smbpass"
 
   tasks:
+    - name: Install pexpect library
+      package:
+        name: python3-pexpect
+        state: present
+        
     - name: Install Samba
       yum:
         name: samba
