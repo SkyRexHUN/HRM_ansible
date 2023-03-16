@@ -9,6 +9,7 @@
     smb_share_user: "fonok"
     smb_share_group: "fonok"
     smb_share_mode: "0775"
+    samba_password: "smbpass"
 
   tasks:
     - name: Install Samba
@@ -22,6 +23,26 @@
         enabled: yes
         state: started
 
+    - name: Check if user exists
+      shell: id -u fonok > /dev/null 2>&1
+      register: user_exists
+      ignore_errors: true
+
+    - name: Create user if it doesn't exist
+      user:
+        name: fonok
+        password: "{{ 'fonokpw' | password_hash('sha512') }}"
+        createhome: no
+      when: user_exists.rc != 0
+
+    - name: Set Samba password
+      shell: echo "{{ samba_password }}" | smbpasswd -a fonok
+      when: user_exists.rc != 0
+
+    - name: Print status message
+      debug:
+        msg: "User fonok {{ 'created with password fonokpw and Samba password smbpass.' if user_exists.rc != 0 else 'already exists.' }}"
+
     - name: Create Samba directory
       file:
         path: "{{ smb_share_path }}"
@@ -29,13 +50,6 @@
         mode: "{{ smb_share_mode }}"
         owner: "{{ smb_share_user }}"
         group: "{{ smb_share_group }}"
-
-    - name: Configure Samba share
-      lineinfile:
-        path: /etc/samba/smb.conf
-        state: present
-        insertafter: '^\[global\]'  
-        line: "security = user"  
 
     - name: Configure Samba share
       lineinfile:
