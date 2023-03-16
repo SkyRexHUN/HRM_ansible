@@ -12,6 +12,11 @@
     samba_password: "smbpass"
 
   tasks:
+    - name: Install pexpect library
+      package:
+        name: python3-pexpect
+        state: present
+
     - name: Install Samba
       yum:
         name: samba
@@ -39,8 +44,8 @@
       expect:
         command: smbpasswd -a fonok
         responses:
-          'New SMB password:': "{{ samba_password }}"
-          'Retype new SMB password:': "{{ samba_password }}"
+          'New SMB password:': "{{ samba_password }}\n"
+          'Retype new SMB password:': "{{ samba_password }}\n"
       when: user_exists.rc != 0
 
     - name: Print status message
@@ -54,6 +59,7 @@
         mode: "{{ smb_share_mode }}"
         owner: "{{ smb_share_user }}"
         group: "{{ smb_share_group }}"
+        setype: "samba_share_t"
 
     - name: Configure Samba share
       lineinfile:
@@ -88,3 +94,5 @@
         name: firewalld
         state: restarted
 
+
+# This script checks if the user "fonok" actually exists. If it does not, it creates it, sets a password and smbpasswd. To do this, it needs the library "python3-pexpect".
