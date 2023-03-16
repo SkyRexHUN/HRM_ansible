@@ -54,6 +54,7 @@
         mode: "{{ smb_share_mode }}"
         owner: "{{ smb_share_user }}"
         group: "{{ smb_share_group }}"
+        setype: "samba_share_t"
 
     - name: Configure Samba share
       lineinfile:
