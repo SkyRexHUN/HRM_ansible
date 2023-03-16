@@ -1,7 +1,12 @@
 ---
 - name: Add /data/dir to fstab
-  lineinfile:
-    path: /etc/fstab
-    regexp: '^/dev/sd.* /data/dir.*'
-    line: '/dev/sdX /data/dir ext4 defaults 0 2'
-    state: present
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Mount to fstab
+      lineinfile:
+        path: /etc/fstab
+        regexp: '^/dev/sd.* /data/mount.*'
+        line: '/dev/sdb /data/mount ext4 defaults 0 0'
+        state: present
