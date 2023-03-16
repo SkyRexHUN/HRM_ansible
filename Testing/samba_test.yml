@@ -39,8 +39,8 @@
       expect:
         command: smbpasswd -a fonok
         responses:
-          'New SMB password:': '{{ samba_password }}\n'
-          'Retype new SMB password:': '{{ samba_password }}\n'
+          'New SMB password:': "{{ samba_password }}\n"
+          'Retype new SMB password:': "{{ samba_password }}\n"
       when: user_exists.rc != 0
 
     - name: Print status message
