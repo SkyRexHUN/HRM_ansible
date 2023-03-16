@@ -30,11 +30,10 @@
         owner: "{{ smb_share_user }}"
         group: "{{ smb_share_group }}"
 
-    - name: Configure Samba share
+    - name: Configure Samba user
       lineinfile:
         path: /etc/samba/smb.conf
-        state: present
-        insertafter: '^\[global\]'  
+        insertafter: '\[global\]'  
         line: "security = user"  
 
     - name: Configure Samba share
@@ -45,6 +44,7 @@
         - "[{{ smb_share_name }}]"
         - "path = {{ smb_share_path }}"
         - "valid users = {{ smb_share_user }}"
+        - "browseable = no"
         - "read only = no"
         - "create mask = 0644"
         - "directory mask = 0755"
