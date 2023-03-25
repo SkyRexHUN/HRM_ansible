@@ -14,7 +14,7 @@
 #        state: present
 
   tasks:
-    - name: Create REJECT firewall zone
+    - name: Create {{ zone_name }} firewall zone
       firewalld:
         zone: "{{ zone_name }}"
         state: present
