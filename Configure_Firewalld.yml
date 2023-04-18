@@ -34,7 +34,7 @@
         service: samba
         permanent: yes
 
-    - name: Allow port 4312 only
+    - name: Allow port 4312
       firewalld:
         state: enabled
         zone: "{{ zone_name }}"
@@ -47,13 +47,18 @@
         target: "%%REJECT%%"
         state: enabled
         permanent: true
-      notify: Restart Firewalld
+      notify: Restart firewalld service
 
   handlers:
-    - name: Restart Firewalld
+    - name: Restart firewalld service
       service:
         name: firewalld
         state: restarted
+
+#This script creates a firewall zone called "{{ zone_name }}", allows ssh and samba traffic, allows port 4312/tcp, rejects other traffic, and restarts firewalld service.
+
+
+#    experimental scripts; please ignore
 
 #    - name: Drop all other traffic (obscolete)
 #      firewalld:
