@@ -46,7 +46,10 @@
         zone: "{{ zone_name }}"
         state: enabled
         permanent: true
-        rich_rule: 'rule family="ipv4" source address="0.0.0.0/0" reject'
+        target: default
+        source: ""
+        immediate: true
+        zone_policy: REJECT
       notify: Restart Firewalld
 
 #    - name: Allow port 4312 for SSH in SELinux
