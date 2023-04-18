@@ -1,0 +1,8 @@
+---
+# tasks file for mount_fstab
+- name: Mount to fstab
+  lineinfile:
+    path: /etc/fstab
+    regexp: '^/dev/sd.* {{ mount_dir }}.*'
+    line: '{{ mount_device }} {{ mount_dir }} ext4 defaults 0 0'
+    state: present

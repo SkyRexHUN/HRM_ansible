@@ -1,6 +1,6 @@
 ---
-- name: Configure firewall
+- name: Configure firewalld
   hosts: all
   become: true
   roles:
-    - firewall
+    - configure_firewalld

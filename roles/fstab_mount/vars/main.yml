@@ -1,0 +1,4 @@
+---
+# vars file for mount_fstab
+mount_dir: "/data/mount"
+mount_device: "/dev/sdb"

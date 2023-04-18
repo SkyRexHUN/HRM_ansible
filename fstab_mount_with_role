@@ -1,0 +1,7 @@
+---
+- name: Add /data/dir to fstab
+  hosts: all
+  become: true
+
+  roles:
+  - fstab_mount

@@ -18,7 +18,7 @@
     service: samba
     permanent: yes
 
-- name: Allow port 4312 only
+- name: Allow port 4312
   firewalld:
     state: enabled
     zone: "{{ zone_name }}"
@@ -31,4 +31,4 @@
     target: "%%REJECT%%"
     state: enabled
     permanent: true
-  notify: Restart firewalld
+  notify: Restart firewalld service
