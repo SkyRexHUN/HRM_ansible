@@ -41,21 +41,27 @@
         port: 4312/tcp
         permanent: yes
 
-#    - name: Drop all other traffic
-#      firewalld:
-#        zone: "{{ zone_name }}"
-#        rich_rule: 'rule family="ipv4" source address="0.0.0.0/0" reject'
-#        state: enabled
-#        permanent: true
-#      notify: Restart Firewalld
-
-    - name: Drop all other traffic v2
+    - name: Set default policy to reject all traffic
       firewalld:
         zone: "{{ zone_name }}"
         target: "%%REJECT%%"
         state: enabled
         permanent: true
       notify: Restart Firewalld
+
+  handlers:
+    - name: Restart Firewalld
+      service:
+        name: firewalld
+        state: restarted
+
+#    - name: Drop all other traffic (obscolete)
+#      firewalld:
+#        zone: "{{ zone_name }}"
+#        rich_rule: 'rule family="ipv4" source address="0.0.0.0/0" reject'
+#        state: enabled
+#        permanent: true
+#      notify: Restart Firewalld
 
 #    - name: Allow port 4312 for SSH in SELinux
 #      command: semanage port -a -t ssh_port_t -p tcp {{ ssh_port }}
@@ -68,12 +74,6 @@
 #        backup: yes
 #        create: yes
 #      notify: Restart SSH service
-
-  handlers:
-    - name: Restart Firewalld
-      service:
-        name: firewalld
-        state: restarted
 
 #    - name: Restart SSH service
 #      service:
