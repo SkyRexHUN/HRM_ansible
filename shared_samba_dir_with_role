@@ -3,4 +3,4 @@
   hosts: all
   become: true
   roles:
-  - samba_share
+  - shared_samba_dir
