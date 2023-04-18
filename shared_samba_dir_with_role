@@ -1,0 +1,6 @@
+---
+- name: Configure Samba share for fonok
+  hosts: all
+  become: true
+  roles:
+    - samba_share
