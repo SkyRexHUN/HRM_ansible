@@ -1,0 +1,7 @@
+---
+smb_share_name: "fontos"
+smb_share_path: "/data/fontos"
+smb_share_user: "fonok"
+smb_share_group: "fonok"
+smb_share_mode: "0775"
+samba_password: "smbpass"

@@ -1,0 +1,9 @@
+- name: restart Samba service
+  service:
+    name: smb
+    state: restarted
+    
+- name: Restart firewalld service
+  service:
+    name: firewalld
+    state: restarted
