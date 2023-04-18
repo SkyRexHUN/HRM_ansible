@@ -47,7 +47,7 @@
         state: enabled
         permanent: true
         immediate: true
-        default_zone_policy: REJECT
+        set_default_zone: yes
       notify: Restart Firewalld
 
 #    - name: Allow port 4312 for SSH in SELinux
