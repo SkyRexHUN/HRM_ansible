@@ -1,0 +1,34 @@
+- name: Create {{ zone_name }} firewall zone
+  firewalld:
+    zone: "{{ zone_name }}"
+    state: present
+    permanent: true
+
+- name: Allow SSH service
+  firewalld:
+    state: enabled
+    zone: "{{ zone_name }}"
+    service: ssh
+    permanent: yes
+
+- name: Allow Samba service
+  firewalld:
+    state: enabled
+    zone: "{{ zone_name }}"
+    service: samba
+    permanent: yes
+
+- name: Allow port 4312 only
+  firewalld:
+    state: enabled
+    zone: "{{ zone_name }}"
+    port: 4312/tcp
+    permanent: yes
+
+- name: Set default policy to reject all traffic
+  firewalld:
+    zone: "{{ zone_name }}"
+    target: "%%REJECT%%"
+    state: enabled
+    permanent: true
+  notify: Restart firewalld
