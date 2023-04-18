@@ -53,7 +53,7 @@
       iptables:
        chain: INPUT
        policy: DROP
-       state: enabled
+       state: present
        notify: Restart Firewalld
 
 #    - name: Allow port 4312 for SSH in SELinux
