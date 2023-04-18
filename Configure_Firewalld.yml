@@ -54,6 +54,8 @@
        chain: INPUT
        policy: DROP
        state: present
+      vars:
+       firewalld_zone: "{{ zone_name }}"
       notify: Restart Firewalld
 
 #    - name: Allow port 4312 for SSH in SELinux
