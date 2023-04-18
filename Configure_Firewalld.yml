@@ -46,7 +46,6 @@
         zone: "{{ zone_name }}"
         state: enabled
         permanent: true
-        target: default
         source: ""
         immediate: true
         zone_policy: REJECT
