@@ -49,13 +49,12 @@
 #        permanent: true
 #      notify: Restart Firewalld
 
-    - name: Set default policy of firewall zone to REJECT
-      iptables:
-       chain: INPUT
-       policy: DROP
-       state: present
-      vars:
-       firewalld_zone: "{{ zone_name }}"
+    - name: Drop all other traffic v2
+      firewalld:
+        zone: "{{ zone_name }}"
+        target: "%%REJECT%%"
+        state: enabled
+        permanent: true
       notify: Restart Firewalld
 
 #    - name: Allow port 4312 for SSH in SELinux
