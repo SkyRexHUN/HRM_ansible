@@ -46,9 +46,8 @@
         zone: "{{ zone_name }}"
         state: enabled
         permanent: true
-        source: ""
         immediate: true
-        zone_policy: REJECT
+        default_zone_policy: REJECT
       notify: Restart Firewalld
 
 #    - name: Allow port 4312 for SSH in SELinux
