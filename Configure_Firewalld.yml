@@ -54,7 +54,7 @@
        chain: INPUT
        policy: DROP
        state: present
-       notify: Restart Firewalld
+      notify: Restart Firewalld
 
 #    - name: Allow port 4312 for SSH in SELinux
 #      command: semanage port -a -t ssh_port_t -p tcp {{ ssh_port }}
